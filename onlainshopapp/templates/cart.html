@@ -1,0 +1,45 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cart</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous" defer></script>
+    <script src="{% static 'ajax.js' %}" defer></script>
+    
+</head>
+<body>
+    <h1>Ваш кошик</h1>
+    {% for item in products %}
+            <div class="cart">
+                <img src="{{ item.0.image.url }}" alt="">
+                <p> {{ item.0.name }}</p>
+                <p> {{ item.0.price }}</p>
+                    <form method="POST" class="remove_one_to_cart">
+                        {% csrf_token %}
+                        <input type="hidden" name="name" value="minus">
+                        <input type="hidden" name="item" value="{{ item.0.pk }}">
+                        <input type="hidden" name="amount" value="{{item.1}}">
+                        <button>&minus;</button>
+                    </form>
+                    <p> {{ item.1 }} </p>
+                    <form method="POST" class="add_one_to_cart">
+                        {% csrf_token %}
+                        <input type="hidden" name="name" value="plus">
+                        <input type="hidden" name="item" value="{{ item.0.pk }}">
+                        <input type="hidden" name="amount" value="{{item.1}}">
+                        <button>&plus;</button>
+                    </form>
+                <form method="POST" class="delet_from_cart">
+                    {% csrf_token %}
+                    <input type="hidden" name="item" value="{{ item.0.pk }}">
+                    <input type="hidden" name="amount" value="{{item.1}}">
+                    <input type="hidden" name="name" value="delete">
+                    <button>&cross;</button>
+                </form>
+            </div>
+    {% endfor %} 
+    
+</body>
+</html>

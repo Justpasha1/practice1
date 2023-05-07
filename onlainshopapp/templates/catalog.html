@@ -1,0 +1,32 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/main.css' %}">
+    <title>catalog</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous" defer></script>
+    <script src="{% static 'ajax.js' %}" defer></script>
+</head>
+<body>
+     
+    {% for product in products %}
+    <div class="catalog">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <p>{{ product.price }}</p>
+        <img src="{{ product.image.url }}">
+    
+        <form method="POST" class="add-to-cart">
+            {% csrf_token %}
+            <input type="hidden" name="product_pk" value="{{ product.pk}}">
+            <input type="number" name = 'amount' min="1">
+            <button> додати до кошика</button>
+        </form>
+
+    </div>
+    {% endfor %}
+    
+</body>
+</html>

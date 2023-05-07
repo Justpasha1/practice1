@@ -1,0 +1,61 @@
+
+* {
+    background-color: #f9c2ff;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+  }
+
+.catalog {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+  }
+  
+.catalog h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f08080;
+  }
+  
+.catalog p {
+    font-size: 18px;
+    color: #333;
+  }
+  
+.catalog img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  
+.add-to-cart {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+.add-to-cart input[type="number"] {
+    width: 50px;
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+.add-to-cart button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f08080;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+.add-to-cart button:hover {
+    background-color: #ff69b4;
+  }
+  
