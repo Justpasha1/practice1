@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import *
+from django.http import HttpResponse
 
 # Create your views here.
 def show_cataloug(request):
@@ -38,18 +39,17 @@ def show_cart(request):
             index = products.index(product)
             product = product.split('_')
             products[index] = product
-           
-        list_products = list()
         for product in products:
             index = products.index(product)
             product[0] = Product.objects.get(pk= int(product[0]) )
             products[index][0] = product[0]
-        response = render(request,"cart.html",context={"products": products})
+        response = HttpResponse("work")
+        responses = render(request,"cart.html",context={"products": products})
     else:
-        response = render(request,"cart.html",context={"products": []})
+        responses = render(request,"cart.html",context={"products": []})
     if request.method == "POST":
+        products = request.COOKIES['product'].split(' ')
         if request.POST.get('name') == 'delete':
-            products = request.COOKIES['product'].split(' ')
             if len(request.COOKIES['product'].split(' ')) > 1:
                 product = request.POST.get('item') + "_" + request.POST.get('amount')
                 products.remove(product)
@@ -61,29 +61,28 @@ def show_cart(request):
                 response.delete_cookie('product')
                 return response
         if request.POST.get('name') == 'minus':
-            products = request.COOKIES['product'].split(' ')
+            
             product_minus = request.POST.get('item') + "_" + request.POST.get('amount')
             index_num = products.index(product_minus)
-            products_num = products
-            for product in products_num:
+            for product in products:
                 index = products.index(product)
                 product = product.split('_')
-                products_num[index] = product
-            if int(products_num[index][1]) - 1 <= 0:
-                if len(request.COOKIES['product'].split(' ')) == 1:
+                products[index] = product
+            if int(products[index_num][1]) - 1 <= 0:
+                if len(request.COOKIES['product'].split(" ")) == 1:
                     response.delete_cookie('product')
                     return response
                 else:
                     del products[index_num]
+                    products= " ".join("_".join(product) for product in products) 
                     response.set_cookie('product', products)
                     return response
             else:
-                products_num[index][1] = str(int(products_num[index_num][1]) - 1)
-                products= " ".join("_".join(product) for product in products_num) 
+                products[index_num][1] = str(int(products[index_num][1]) - 1)
+                products= " ".join("_".join(product) for product in products) 
                 response.set_cookie('product', products)
                 return response
         if request.POST.get('name') == 'plus':
-            products = request.COOKIES['product'].split(' ')
             product_plus = request.POST.get('item') + "_" + request.POST.get('amount')
             index_num = products.index(product_plus)
             for product in products:
@@ -93,11 +92,6 @@ def show_cart(request):
             products[index_num][1] = str(int(products[index_num][1]) + 1)
             products= " ".join("_".join(product) for product in products) 
             response.set_cookie('product', products)
-            return response
-
-
-
-    
-    return response
-    
+            return response   
+    return responses 
     
